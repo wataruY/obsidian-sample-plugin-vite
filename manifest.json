@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "id": "obsidian-sample-plugin-vite",
+  "name": "Sample Plugin using Vite",
+  "version": "1.0.0",
+  "minAppVersion": "0.15.0",
+  "description": "Demonstrates some of the capabilities of the Obsidian API.",
+  "author": "wataruY",
+  "authorUrl": "https://obsidian.md",
+  "isDesktopOnly": false
+}

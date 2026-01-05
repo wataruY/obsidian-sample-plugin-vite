@@ -1,0 +1,27 @@
+{
+  "config": {
+    "line-length": false, // MD013: 1文の最大文字数
+    "no-duplicate-heading": false, // MD024: 見出し文字列の重複を許容
+    "no-trailing-punctuation": false, // MD026: 見出しに.,;:が入ることを許容
+    "no-inline-html": false, // MD033: HTML記述を許容
+    "no-bare-urls": false, // MD034: URLそのままの表記を許容
+    "fenced-code-language": false, // MD040: コードブロックの言語指定を許容
+    "MD007": {
+      "indent": 4,
+      "smart_indented": true,
+      "start_indent": 2,
+    },
+    "MD012": {
+      "maximum": 1, // 連続空行は1行まで許可
+    },
+    "MD028": false,
+    "MD041": {
+      // Heading level
+      "level": 1,
+      // RegExp for matching title in front matter
+      "front_matter_title": "^\\s*title\\s*[:=]",
+    },
+    "single-trailing-newline": true,
+  },
+  "ignores": ["node_modules"], // node_modules配下はチェック対象外
+}

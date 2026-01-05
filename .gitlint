@@ -1,0 +1,17 @@
+[general]
+contrib = contrib-title-conventional-commits
+
+# Setting contrib rule options is identical to configuring other rules
+; [contrib-title-conventional-commits]
+; types = bugfix,user-story,epic
+
+# Set the extra-path where gitlint will search for user defined rules
+# extra-path=./gitlint_rules/my_rules.py
+
+### Configuring rules ### 
+
+[title-max-length]
+line-length=80 
+
+[title-min-length]
+min-length=5
