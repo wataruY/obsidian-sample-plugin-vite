@@ -2,11 +2,6 @@ import { App, Editor, MarkdownView, Modal, Notice, Plugin } from "obsidian";
 import { DEFAULT_SETTINGS, MyPluginSettings, SampleSettingTab } from "./settings";
 
 // Remember to rename these classes and interfaces!
-export function getRandomIntInclusive(min: number, max: number) {
-  const minCeiled = Math.ceil(min);
-  const maxFloored = Math.floor(max);
-  return Math.floor(Math.random() * (maxFloored - minCeiled + 1) + minCeiled); // 上限を含み、下限も含む
-}
 export default class MyPlugin extends Plugin {
   settings: MyPluginSettings;
 
