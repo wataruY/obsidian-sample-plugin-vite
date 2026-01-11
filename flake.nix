@@ -143,13 +143,15 @@
               ${config.pre-commit.shellHook}
               echo 1>&2 "Start development shell"
             '';
-            packages = use-only-nix ++ [
-              pkgs.bun
-              pkgs.nodejs
-              pkgs.treefmt
-              pkgs.nixfmt
-              pkgs.watchexec
-            ];
+            packages =
+              use-only-nix
+              ++ (with pkgs; [
+                bun
+                nodejs
+                treefmt
+                nixfmt
+                watchexec
+              ]);
           };
 
           packages = {
