@@ -8,18 +8,13 @@
     systems.url = "github:nix-systems/default";
     git-hooks-nix.url = "github:cachix/git-hooks.nix";
     devenv.url = "github:cachix/devenv";
-    # gleam-overlay.url = "github:Comamoca/gleam-overlay";
-    # gleam2nix.url = "git+https://git.isincredibly.gay/srxl/gleam2nix";
-    # gleam2nix.inputs.nixpkgs.follows = "nixpkgs";
-    # deno-overlay.url = "github:haruki7049/deno-overlay";
-    # fenix.url = "github:nix-community/fenix";
   };
 
   outputs =
     inputs@{
-      self,
-      systems,
-      nixpkgs,
+      # self,
+      # systems,
+      # nixpkgs,
       flake-parts,
       ...
     }:
@@ -38,10 +33,11 @@
           ...
         }:
         let
-          stdenv = pkgs.stdenv;
+          # stdenv = pkgs.stdenv;
 
           use-only-nix = with pkgs; [
             nil
+            nixd
           ];
 
           git-secrets' = pkgs.writeShellApplication {
@@ -52,38 +48,6 @@
             '';
           };
 
-          # devdeps-gleam = with pkgs; [
-          #   pkgs.gleam.bin.latest
-          #   beam28Packages.rebar3
-          #   beam28Packages.erlang
-          #   nodejs
-          #   wrangler
-          # ];
-
-          # devShellImage = pkgs.dockerTools.buildImage {
-          #   name = "devShellImage";
-          #   fromImage = pkgs.dockerTools.pullImage {
-          #     imageName = "debian";
-          #     imageDigest = "sha256:dff4def4601f20ccb9422ad7867772fbb13019fd186bbe59cd9fc28a82313283";
-          #     hash = "sha256-Qrv4Re0Xy13+oh6IA2lXcOAxq8YjKLf7nyjoFLouiOI=";
-          #     finalImageName = "debian";
-          #     finalImageTag = "stable";
-          #   };
-          #
-          #   copyToRoot = pkgs.buildEnv {
-          #     name = "image-root";
-          #     paths = devdeps-gleam ++ [
-          #       (pkgs.runCommand "bin-sh-link" { } ''
-          #         mkdir -p $out/bin
-          #         ln -s /usr/bin/dash $out/bin/sh
-          #       '')
-          #     ];
-          #     pathsToLink = [ "/bin" ];
-          #   };
-          #   config = {
-          #     Env = [ "SSL_CERT_FILE=${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt" ];
-          #   };
-          # };
         in
         {
           _module.args.pkgs = import inputs.nixpkgs {
@@ -151,6 +115,7 @@
                 treefmt
                 nixfmt
                 watchexec
+                oxlint
               ]);
           };
 
