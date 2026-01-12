@@ -2,12 +2,6 @@ import { Plugin } from "obsidian";
 import { DEFAULT_SETTINGS, MyPluginSettings, SampleSettingTab } from "./settings";
 import { ExampleModal } from "./modal";
 
-// Remember to rename these classes and interfaces!
-export function getRandomIntInclusive(min: number, max: number) {
-  const minCeiled = Math.ceil(min);
-  const maxFloored = Math.floor(max);
-  return Math.floor(Math.random() * (maxFloored - minCeiled + 1) + minCeiled); // 上限を含み、下限も含む
-}
 export default class MyPlugin extends Plugin {
   settings: MyPluginSettings;
 
@@ -18,15 +12,15 @@ export default class MyPlugin extends Plugin {
     this.addSettingTab(new SampleSettingTab(this.app, this));
 
     this.addCommand({
-      id: 'display-modala',
-      name: 'Display Modal',
+      id: "display-modala",
+      name: "Display Modal",
       callback: () => {
-        new ExampleModal(this.app).open()
+        new ExampleModal(this.app).open();
       },
-    })
+    });
   }
 
-  onunload() { }
+  onunload() {}
 
   async loadSettings() {
     this.settings = Object.assign(

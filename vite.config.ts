@@ -1,13 +1,14 @@
 import { UserConfig, defineConfig } from "vite";
 import path from "path";
 import builtins from "builtin-modules";
+import react from "@vitejs/plugin-react";
 
 export default defineConfig(({ mode }) => {
   const resolve = path.resolve;
   const prod = mode === "production";
 
   return {
-    plugins: [],
+    plugins: [react()],
     resolve: {
       alias: {
         "@": resolve(__dirname, "./src"),
