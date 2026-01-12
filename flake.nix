@@ -116,6 +116,7 @@
                 nixfmt
                 watchexec
                 oxlint
+                typescript-language-server
               ]);
           };
 
