@@ -1,5 +1,6 @@
 import { UserConfig, defineConfig } from "vite";
 import path from "path";
+import tailwindcss from "@tailwindcss/vite"
 import builtins from "builtin-modules";
 import react from "@vitejs/plugin-react";
 
@@ -8,7 +9,7 @@ export default defineConfig(({ mode }) => {
   const prod = mode === "production";
 
   return {
-    plugins: [react()],
+    plugins: [react(), tailwindcss()],
     resolve: {
       alias: {
         "@": resolve(__dirname, "./src"),

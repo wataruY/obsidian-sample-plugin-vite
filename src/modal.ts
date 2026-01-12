@@ -1,6 +1,6 @@
 import { App, Modal } from "obsidian";
 import { createRoot, Root } from "react-dom/client";
-import { Foo } from "./components/Foo";
+import { Foo } from "./Foo";
 import { createElement } from "react";
 
 export class ExampleModal extends Modal {
