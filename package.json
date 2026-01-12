@@ -17,7 +17,11 @@
     "test": "vitest"
   },
   "dependencies": {
-    "obsidian": "latest"
+    "@types/react": "^19.2.8",
+    "@types/react-dom": "^19.2.3",
+    "obsidian": "latest",
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3"
   },
   "devDependencies": {
     "@eslint/js": "9.30.1",
