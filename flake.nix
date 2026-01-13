@@ -106,6 +106,7 @@
             shellHook = ''
               ${config.pre-commit.shellHook}
               echo 1>&2 "Start development shell"
+              export PATH="./node_modules/.bin/:$PATH"
             '';
             packages =
               use-only-nix
