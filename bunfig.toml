@@ -1,0 +1,7 @@
+[test]
+root = "."
+testTimeout = 10000
+
+[test.window]
+# Enable jsdom for React Testing Library
+
