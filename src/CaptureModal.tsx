@@ -13,7 +13,6 @@ import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
 import { ThemeProvider } from './theme-provider'
 import { TagsList } from "./tags-list"
-import MultiSelect from "@/components/ui/multiselect"
 
 
 interface CaptureModalProps {
@@ -77,8 +76,7 @@ export function CaptureModal({ saveButtonRef, onConfirm, items }: CaptureModalPr
             </Button>
           ))}
         </ButtonGroup>
-        <MultiSelect items={items ?? []} />
-        <TagsList tags={selectedTags} />
+        <TagsList tags={items ?? []} setSelectedTags={() => { }} />
         <div className="flex items-center space-x-2">
           <Label className="uppercase tracking-wider">
             Next Action
