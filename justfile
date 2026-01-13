@@ -4,7 +4,34 @@ set dotenv-load
 ID := `cat manifest.json | jq -r '.id'`
 
 build:
+  bun run build-css
   bun run build
+
+build-debug:
+  bun run build-css
+  tsgo -noEmit -skipLibCheck
+  vite build -m development
+
+install-debug: build-debug
+  #!/usr/bin/bash
+  if [[ -z "$INSTALL_PATH" ]]; then
+    echo "Error: INSTALL_PATH environment variable is not set"
+    exit 1
+  fi
+
+  DIST=$INSTALL_PATH/.obsidian/plugins/{{ID}}
+  echo "Installing to: $DIST"
+
+  if [[ ! -d "$DIST" ]]; then
+    mkdir -p "$DIST"
+    echo "Created directory: $DIST"
+  fi
+
+  cp -r build/* "$DIST/"
+  cp styles.css "$DIST/"
+  cp manifest.json "$DIST/"
+  touch "$DIST/.hotreload"
+  echo "Installation complete"
 
 # install plugin with .hotreload(hot-reload plugin)
 install: build
@@ -27,6 +54,7 @@ install: build
   cp manifest.json "$DIST/"
   touch "$DIST/.hotreload"
   echo "Installation complete"
+
 
 # uninstall from vault
 uninstall:

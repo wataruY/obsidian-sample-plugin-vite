@@ -1,3 +1,4 @@
+import "./polyfills";
 import { Plugin } from "obsidian";
 import { DEFAULT_SETTINGS, MyPluginSettings, SampleSettingTab } from "./settings";
 import { ExampleModal } from "./modal";
@@ -15,12 +16,12 @@ export default class MyPlugin extends Plugin {
       id: "display-modala",
       name: "Display Modal",
       callback: () => {
-        new ExampleModal(this.app).open();
+        new ExampleModal(this.app).open(); 
       },
     });
   }
 
-  onunload() {}
+  onunload() { }
 
   async loadSettings() {
     this.settings = Object.assign(

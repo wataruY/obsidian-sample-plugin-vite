@@ -9,14 +9,19 @@ export default defineConfig(({ mode }) => {
   const prod = mode === "production";
 
   return {
-    plugins: [react(), tailwindcss()],
+    plugins: [
+      react({
+        jsxRuntime: "classic",
+      }),
+      tailwindcss(),
+    ],
     resolve: {
       alias: {
         "@": resolve(__dirname, "./src"),
       },
     },
     build: {
-      target: "es2018",
+      target: "es2020",
       lib: {
         entry: resolve(__dirname, "src/main.ts"),
         name: "main",
@@ -35,6 +40,9 @@ export default defineConfig(({ mode }) => {
         output: {
           entryFileNames: "main.js",
           assetFileNames: "styles.css",
+        },
+        define: {
+          "process.env.NODE_ENV": JSON.stringify(prod ? "production" : "development"),
         },
         treeshake: true,
         external: [

@@ -117,6 +117,10 @@
                 watchexec
                 oxlint
                 typescript-language-server
+                tailwindcss-language-server
+                postcss
+                vscode-langservers-extracted
+                neovim-node-client
               ]);
           };
 

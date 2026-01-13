@@ -7,31 +7,51 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import { ButtonGroup } from "@/components/ui/button-group"
+import { Button } from "@/components/ui/button"
+import { Label } from "@/components/ui/label"
+import { ThemeProvider } from './theme-provider'
+import { TagsList } from "./tags-list"
+import MultiSelect from "@/components/ui/multiselect"
+
 
 interface CaptureModalProps {
   saveButtonRef?: HTMLButtonElement
   onConfirm?: (text: string, action: string, mood: string) => void
+  items?: (query: string) => string[]
 }
 
-export function CaptureModal({ saveButtonRef, onConfirm }: CaptureModalProps) {
+interface Mood {
+  id: "sunny" | "cloudy" | "rainy";
+  label: string;
+  emoji: string;
+}
+
+export function CaptureModal({ saveButtonRef, onConfirm, items: fetchCandidates }: CaptureModalProps) {
   const [text, setText] = useState("")
   const [action, setAction] = useState("create-note")
-  const [mood, setMood] = useState("")
+  const [mood, setMood] = useState<Mood | undefined>(undefined);
+  const [selectedTags, setSelectedTags] = useState<string[]>([])
+  const [candidates, setCandidates] = useState<string[]>([])
 
-  const moods = [
-    { id: "sunny", label: "☀️", emoji: "☀️" },
-    { id: "cloudy", label: "☁️", emoji: "☁️" },
-    { id: "rainy", label: "🌧️", emoji: "🌧️" },
+  const moods: Mood[] = [
+    { id: "sunny", label: "Sunny", emoji: "☀️" },
+    { id: "cloudy", label: "Cloudy", emoji: "☁️" },
+    { id: "rainy", label: "Rainy", emoji: "🌧️" },
   ]
 
   const handleConfirm = () => {
-    if (onConfirm) {
-      onConfirm(text, action, mood)
+    if (onConfirm && mood) {
+      onConfirm(text, action, mood.id)
     }
     setText("")
-    setMood("")
+    setMood(undefined)
   }
 
+
+  if (fetchCandidates) {
+    setCandidates(fetchCandidates(""))
+  }
   // Link external save button to handleConfirm
   useEffect(() => {
     if (!saveButtonRef) return
@@ -43,45 +63,39 @@ export function CaptureModal({ saveButtonRef, onConfirm }: CaptureModalProps) {
   }, [saveButtonRef, text, action, mood, onConfirm])
 
   return (
-    <div className="flex h-full flex-col bg-neutral-900">
-      {/* Header */}
-      <div className="flex items-center justify-center border-b border-neutral-700 px-6 py-4">
-        <h2 className="text-lg font-semibold text-white">Confirm</h2>
-      </div>
-
-      {/* Content */}
-      <div className="flex-1 space-y-4 overflow-y-auto px-6 py-4">
+    <ThemeProvider defaultTheme="light">
+      <div className="flex h-full flex-col gap-2">
+        {/* Content */}
         {/* Mood Selector */}
-        <div className="flex justify-center gap-3">
+        <ButtonGroup orientation="horizontal" className="flex w-full items-center justify-center gap-2">
           {moods.map((m) => (
-            <button
+            <Button
               key={m.id}
-              onClick={() => setMood(m.id)}
-              className={`flex h-12 w-12 items-center justify-center rounded-full text-2xl transition-all ${mood === m.id
-                ? "border-2 border-purple-500 bg-purple-500/10"
-                : "border border-neutral-600 hover:border-purple-500"
-                }`}
+              onClick={() => setMood(m)}
+              className={"flex-1 " + (m.id === mood?.id ? "activated-button" : "")}
+              variant={"default"}
             >
-              {m.emoji}
-            </button>
+              {m.emoji}{m.label}
+            </Button>
           ))}
-        </div>
-
-        {/* Next Action */}
-        <div className="space-y-2">
-          <label className="text-xs font-semibold text-neutral-400 uppercase tracking-wider">
+        </ButtonGroup>
+        <MultiSelect />
+        <TagsList tags={selectedTags} />
+        <div className="flex items-center space-x-2">
+          <Label className="uppercase tracking-wider">
             Next Action
-          </label>
+          </Label>
           <Select value={action} onValueChange={setAction}>
-            <SelectTrigger className="border-0 border-b border-neutral-600 bg-transparent text-white placeholder:text-neutral-500 focus:border-purple-500 focus:ring-0">
+            <SelectTrigger className="">
               <SelectValue />
             </SelectTrigger>
-            <SelectContent className="border-neutral-600 bg-neutral-800">
+            <SelectContent className="">
               <SelectItem value="create-note">Create Note</SelectItem>
               <SelectItem value="add-daily">Add to Daily Note</SelectItem>
               <SelectItem value="add-inbox">Add to Inbox</SelectItem>
             </SelectContent>
           </Select>
+
         </div>
 
         {/* Text Input */}
@@ -91,9 +105,39 @@ export function CaptureModal({ saveButtonRef, onConfirm }: CaptureModalProps) {
           onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
             setText(e.target.value)
           }
-          className="min-h-32 w-full resize-none border border-purple-500/30 bg-neutral-800 text-sm text-white placeholder:text-neutral-500 focus:border-purple-500 focus:ring-0 "
+          className="min-h-64 h-full w-full resize-y border border-purple-500/30  placeholder:text-neutral-500 focus:border-purple-500 focus:ring-0 "
         />
+
       </div>
-    </div>
+
+    </ThemeProvider>
   )
 }
+
+//       {/* Next Action */}
+//       <div className="space-y-2">
+//         <label className="text-xs font-semibold text-neutral-400 uppercase tracking-wider">
+//           Next Action
+//         </label>
+//         <Select value={action} onValueChange={setAction}>
+//           <SelectTrigger className="border-0 border-b border-neutral-600 bg-transparent text-white placeholder:text-neutral-500 focus:border-purple-500 focus:ring-0">
+//             <SelectValue />
+//           </SelectTrigger>
+//           <SelectContent className="border-neutral-600 bg-neutral-800">
+//             <SelectItem value="create-note">Create Note</SelectItem>
+//             <SelectItem value="add-daily">Add to Daily Note</SelectItem>
+//             <SelectItem value="add-inbox">Add to Inbox</SelectItem>
+//           </SelectContent>
+//         </Select>
+// 
+//         {/* Text Input */}
+//         <Textarea
+//           placeholder="What's on your mind? Quickly jot down a new thought or idea..."
+//           value={text}
+//           onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+//             setText(e.target.value)
+//           }
+//           className="min-h-32 w-full resize-none border border-purple-500/30 bg-neutral-800 text-sm text-white placeholder:text-neutral-500 focus:border-purple-500 focus:ring-0 "
+//         />
+//       </div>
+// 
