@@ -72,9 +72,7 @@ export class ExampleModal extends Modal {
         onConfirm: (text: string, action: string, mood: string) => {
           console.log("Saved:", { text, action, mood });
         },
-        items: (_query) => {
-          return Object.keys(this.tags);
-        }
+        items: Object.keys(this.tags)
       })
     );
   }

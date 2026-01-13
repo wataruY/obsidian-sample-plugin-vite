@@ -270,6 +270,9 @@
   .mt-2 {
     margin-top: calc(var(--spacing) * 2);
   }
+  .block {
+    display: block;
+  }
   .contents {
     display: contents;
   }

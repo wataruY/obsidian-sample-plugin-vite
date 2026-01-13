@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react"
 import { Textarea } from "@/components/ui/textarea"
 import {
@@ -18,7 +19,7 @@ import MultiSelect from "@/components/ui/multiselect"
 interface CaptureModalProps {
   saveButtonRef?: HTMLButtonElement
   onConfirm?: (text: string, action: string, mood: string) => void
-  items?: (query: string) => string[]
+  items?: string[]
 }
 
 interface Mood {
@@ -27,7 +28,7 @@ interface Mood {
   emoji: string;
 }
 
-export function CaptureModal({ saveButtonRef, onConfirm, items: fetchCandidates }: CaptureModalProps) {
+export function CaptureModal({ saveButtonRef, onConfirm, items }: CaptureModalProps) {
   const [text, setText] = useState("")
   const [action, setAction] = useState("create-note")
   const [mood, setMood] = useState<Mood | undefined>(undefined);
@@ -49,9 +50,6 @@ export function CaptureModal({ saveButtonRef, onConfirm, items: fetchCandidates 
   }
 
 
-  if (fetchCandidates) {
-    setCandidates(fetchCandidates(""))
-  }
   // Link external save button to handleConfirm
   useEffect(() => {
     if (!saveButtonRef) return
@@ -79,7 +77,7 @@ export function CaptureModal({ saveButtonRef, onConfirm, items: fetchCandidates 
             </Button>
           ))}
         </ButtonGroup>
-        <MultiSelect />
+        <MultiSelect items={items ?? []} />
         <TagsList tags={selectedTags} />
         <div className="flex items-center space-x-2">
           <Label className="uppercase tracking-wider">
